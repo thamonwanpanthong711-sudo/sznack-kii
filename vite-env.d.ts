@@ -1,5 +1,3 @@
-/// <reference types="vite/client" />
-
 interface ImportMetaEnv {
   readonly VITE_API_KEY: string;
 }
@@ -8,12 +6,10 @@ interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
 
-// Ensure process.env is typed for the client-side code.
-// Using 'var' allows merging with existing global 'process' definitions (e.g. from @types/node)
-// preventing "Cannot redeclare block-scoped variable" errors that occur with 'const'.
-declare var process: {
-  env: {
+// Augment the existing NodeJS namespace to include API_KEY in ProcessEnv.
+// This allows strict typing for process.env.API_KEY without conflicting with @types/node.
+declare namespace NodeJS {
+  interface ProcessEnv {
     API_KEY: string;
-    [key: string]: any;
   }
-};
+}
