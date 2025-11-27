@@ -1,8 +1,9 @@
 import { GoogleGenAI, Type, Schema } from "@google/genai";
 import { Debtor, AnalysisResponse } from "../types";
 
-// Access environment variable using Vite's syntax
-const apiKey = import.meta.env.VITE_API_KEY || ''; 
+// API key accessed via process.env.API_KEY as per guidelines
+// This value is injected by Vite during build via the define config
+const apiKey = process.env.API_KEY || '';
 
 const ai = new GoogleGenAI({ apiKey });
 
@@ -11,7 +12,7 @@ export const analyzeDebtorStrategy = async (debtor: Debtor): Promise<AnalysisRes
     return {
       strategy: "ไม่สามารถเชื่อมต่อ AI ได้ (ไม่พบ API Key)",
       tone: "N/A",
-      steps: ["กรุณาตรวจสอบการตั้งค่า Environment Variable: VITE_API_KEY"],
+      steps: ["กรุณาตรวจสอบการตั้งค่า Environment Variable: API_KEY หรือ VITE_API_KEY"],
       legal_warning: "ไม่สามารถประเมินได้"
     };
   }
