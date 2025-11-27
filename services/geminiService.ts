@@ -3,22 +3,9 @@ import { Debtor, AnalysisResponse } from "../types";
 
 // API key accessed via process.env.API_KEY as per guidelines
 // This value is injected by Vite during build via the define config
-const apiKey = process.env.API_KEY || '';
-
-const ai = new GoogleGenAI({ apiKey });
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 export const analyzeDebtorStrategy = async (debtor: Debtor): Promise<AnalysisResponse> => {
-  if (!apiKey) {
-    return {
-      strategy: "ไม่สามารถเชื่อมต่อ AI ได้ (ไม่พบ API Key)",
-      tone: "N/A",
-      steps: ["กรุณาตรวจสอบการตั้งค่า Environment Variable: API_KEY หรือ VITE_API_KEY"],
-      legal_warning: "ไม่สามารถประเมินได้"
-    };
-  }
-
-  const model = "gemini-2.5-flash";
-  
   const prompt = `
     คุณคือที่ปรึกษาอาวุโสจด้านการเงินและบัญชีภาครัฐ เชี่ยวชาญระเบียบการเบิกจ่ายเงินงบประมาณ
     
@@ -55,7 +42,7 @@ export const analyzeDebtorStrategy = async (debtor: Debtor): Promise<AnalysisRes
 
   try {
     const response = await ai.models.generateContent({
-      model: model,
+      model: "gemini-2.5-flash",
       contents: prompt,
       config: {
         responseMimeType: "application/json",

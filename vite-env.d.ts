@@ -6,8 +6,8 @@ interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
 
-// Augment the existing NodeJS namespace to include API_KEY in ProcessEnv.
-// This allows strict typing for process.env.API_KEY without conflicting with @types/node.
+// Augment the existing NodeJS namespace (provided by @types/node)
+// to ensure process.env.API_KEY is typed correctly.
 declare namespace NodeJS {
   interface ProcessEnv {
     API_KEY: string;
